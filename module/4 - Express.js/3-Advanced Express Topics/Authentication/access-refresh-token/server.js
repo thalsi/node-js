@@ -39,6 +39,56 @@ app.post('/login', (req, res) => {
   res.json({ accessToken });
 });
 
+// 🔄 Refresh
+app.post('/refresh', (req, res) => {
+  const token = req.cookies.refreshToken;
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, REFRESH_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+
+    const accessToken = jwt.sign(
+      { name: user.name, email: user.email },
+      ACCESS_SECRET,
+      { expiresIn: '15s' }
+    );
+
+    res.json({ 
+        "message":"successfully",
+        accessToken });
+  });
+});
+
+// 🛡️ Profile
+app.get('/profile', auth, (req, res) => {
+  res.json({ user: req.user });
+});
+
+// 
+function auth(req, res, next){
+
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];
+    
+    // No token
+    if (!token) return res.status(401).json({
+        sccess:false,
+        message:'Access token missing. Please login again.'
+    });
+
+    jwt.sign(token, ACCESS_SECRET, (err, user)=>{
+        if(err){
+            return res.status(403).json({
+                success:false,
+                message: 'Invalid or expired access token.'
+            });
+        }
+
+        req.user = user;
+        next();
+    });
+} 
+
 
 app.listen(3000, () =>
   console.log('Backend running on http://localhost:3000')
