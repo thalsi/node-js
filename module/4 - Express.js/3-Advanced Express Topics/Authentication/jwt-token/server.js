@@ -53,6 +53,7 @@ app.get('/profile', verifyToken, (req, res) => {
     user: req.user
   });
 });
+
 app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
