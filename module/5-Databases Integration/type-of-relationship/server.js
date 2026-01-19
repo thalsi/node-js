@@ -1,10 +1,20 @@
-const express=require('express');
 require('dotenv').config({path:'./dev.env'});
 
+const express = require('express');
+const connectDB= require('./config/db-connect');
+const UserRouters=require('./routes/user-router');
 
 const app=express();
 
+
+// middleware
 app.use(express.json());
+
+// Database connection
+connectDB();
+
+// Routers
+app.use('/api', UserRouters);
 
 app.listen( process.env.PORT,()=>{
     console.log(`Server is running on http://localhost:${process.env.PORT}`);
