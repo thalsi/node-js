@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
+const UserEmbedding = require('../models/embedding');
 
 // 👉 CREATE
-router.post('/user', async (req, res)=>{
-    const user= await User.create(req.body);
+router.post('/user-embedding', async (req, res)=>{
+    const user= await UserEmbedding.create(req.body);
     res.status(201).json({
         message:'Create successfully',
         status:true,
@@ -13,14 +13,14 @@ router.post('/user', async (req, res)=>{
 });
 
 // 👉 READ ALL
-router.get('/user', async (req, res)=>{
-    const users= await User.find();
+router.get('/user-embedding', async (req, res)=>{
+    const users= await UserEmbedding.find();
     res.status(201).json(users);
 });
 
 // 👉 READ 
-router.get('/user/:id', async (req, res)=>{
-    const user= await User.findById(req.params.id);
+router.get('/user-embedding/:id', async (req, res)=>{
+    const user= await UserEmbedding.findById(req.params.id);
     res.status(201).json(user);
 });
 
