@@ -58,7 +58,7 @@ router.post('/user-referening', async (req, res)=>{
 
 // 👉 USER-READ 
 router.get('/user-referening', async (req, res)=>{
-    const users= await User.find();
+    const users= await User.find().populate('profile');
     res.status(201).json(users);
 });
 
