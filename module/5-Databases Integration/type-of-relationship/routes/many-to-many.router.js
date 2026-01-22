@@ -24,15 +24,15 @@ router.post('/many-to-many/sutdent', async(req, res)=>{
     })   
 });
 
-// 👉 USER-READ 
+// 👉 course-READ 
 router.get('/many-to-many/course', async (req, res)=>{
     const body= await course.find();
     res.status(201).json(body);
 });
 
-// 👉 USER-READ 
+// 👉 sutdent-READ 
 router.get('/many-to-many/sutdent', async (req, res)=>{
-    const body= await sutdent.find();
+    const body= await sutdent.find().populate('courses');
     res.status(201).json(body);
 });
 
